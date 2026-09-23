@@ -53,4 +53,26 @@ app.post("/login", async (req, res) => {
   if (!correo || !contraseña) {
     return res.status(400).json({ error: "Faltan datos obligatorios" });
   }
+
+  try {
+    const [filas] = await pool.query(
+      "SELECT id, nombre, correo, contraseña, foto_url FROM Usuarios WHERE correo = ?",
+      [correo]
+    );
+
+    if (filas.length === 0 || filas[0].contraseña !== contraseña) {
+      return res.status(401).json({ error: "Correo o contraseña incorrectos" });
+    }
+
+    const usuario = filas[0];
+    res.json({
+      id: usuario.id,
+      nombre: usuario.nombre,
+      correo: usuario.correo,
+      foto_url: usuario.foto_url,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error al iniciar sesión" });
+  }
 });
