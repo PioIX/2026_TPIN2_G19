@@ -46,3 +46,11 @@ app.post("/register", async (req, res) => {
     res.status(500).json({ error: "Error al registrar el usuario" });
   }
 });
+
+app.post("/login", async (req, res) => {
+  const { correo, contraseña } = req.body;
+
+  if (!correo || !contraseña) {
+    return res.status(400).json({ error: "Faltan datos obligatorios" });
+  }
+});
