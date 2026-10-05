@@ -4,12 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import styles from "./page.module.css";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [modo, setModo] = useState("login");
+  const [modo, setModo] = useState("login"); // "login" | "registro"
   const [form, setForm] = useState({
     nombre: "",
     correo: "",
@@ -57,78 +58,81 @@ export default function LoginPage() {
   }
 
   return (
-    <main>
-      <h1>Pio Chat</h1>
-      <p>
-        {modo === "login"
-          ? "Ingresá con tu cuenta"
-          : "Creá tu cuenta para empezar a chatear"}
-      </p>
+    <main className={styles.main}>
+      <div className={styles.card}>
+        <h1 className={styles.title}>Pio Chat</h1>
+        <p className={styles.subtitle}>
+          {modo === "login"
+            ? "Ingresá con tu cuenta"
+            : "Creá tu cuenta para empezar a chatear"}
+        </p>
 
-      <form onSubmit={handleSubmit}>
-        {modo === "registro" && (
+        <form onSubmit={handleSubmit} className={styles.form}>
+          {modo === "registro" && (
+            <Input
+              label="Nombre de usuario"
+              name="nombre"
+              value={form.nombre}
+              onChange={handleChange}
+              placeholder="agustinp"
+              required
+            />
+          )}
+
           <Input
-            label="Nombre de usuario"
-            name="nombre"
-            value={form.nombre}
+            label="Correo"
+            type="email"
+            name="correo"
+            value={form.correo}
             onChange={handleChange}
-            placeholder="agustinp"
+            placeholder="tu@pioix.edu.ar"
             required
           />
-        )}
 
-        <Input
-          label="Correo"
-          type="email"
-          name="correo"
-          value={form.correo}
-          onChange={handleChange}
-          placeholder="tu@pioix.edu.ar"
-          required
-        />
-
-        <Input
-          label="Contraseña"
-          type="password"
-          name="contraseña"
-          value={form.contraseña}
-          onChange={handleChange}
-          placeholder="••••••••"
-          required
-        />
-
-        {modo === "registro" && (
           <Input
-            label="URL de tu foto (opcional)"
-            name="foto_url"
-            value={form.foto_url}
+            label="Contraseña"
+            type="password"
+            name="contraseña"
+            value={form.contraseña}
             onChange={handleChange}
-            placeholder="https://..."
+            placeholder="••••••••"
+            required
           />
-        )}
 
-        {error && <p>{error}</p>}
+          {modo === "registro" && (
+            <Input
+              label="URL de tu foto (opcional)"
+              name="foto_url"
+              value={form.foto_url}
+              onChange={handleChange}
+              placeholder="https://..."
+            />
+          )}
 
-        <Button type="submit" disabled={cargando}>
-          {cargando
-            ? "Un momento..."
-            : modo === "login"
-            ? "Ingresar"
-            : "Registrarme"}
-        </Button>
-      </form>
+          {error && <p className={styles.errorMsg}>{error}</p>}
 
-      <button
-        type="button"
-        onClick={() => {
-          setError("");
-          setModo(modo === "login" ? "registro" : "login");
-        }}
-      >
-        {modo === "login"
-          ? "¿No tenés cuenta? Registrate"
-          : "¿Ya tenés cuenta? Ingresá"}
-      </button>
+          <Button type="submit" disabled={cargando}>
+            {cargando
+              ? "Un momento..."
+              : modo === "login"
+              ? "Ingresar"
+              : "Registrarme"}
+          </Button>
+        </form>
+
+        <button
+          type="button"
+          className={styles.switchModo}
+          onClick={() => {
+            setError("");
+            setModo(modo === "login" ? "registro" : "login");
+          }}
+        >
+          {modo === "login"
+            ? "¿No tenés cuenta? Registrate"
+            : "¿Ya tenés cuenta? Ingresá"}
+        </button>
+      </div>
     </main>
   );
 }

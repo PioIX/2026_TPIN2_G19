@@ -1,0 +1,107 @@
+.main {
+  display: flex;
+  height: 100vh;
+  background-color: var(--bg);
+}
+
+.sidebar {
+  width: 340px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.nombreUsuario {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+.logout {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.accionesNuevo {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.sinChat {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem 1.3rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.panelFoto {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+}
+
+.panelNombre {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+.mensajes {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(
+    circle at 30% 0%,
+    rgba(139, 92, 246, 0.05),
+    transparent 60%
+  );
+}
+
+.formEnvio {
+  display: flex;
+  gap: 0.7rem;
+  padding: 1rem 1.3rem;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  align-items: flex-end;
+}
+
+.formEnvio > :first-child {
+  flex: 1;
+}

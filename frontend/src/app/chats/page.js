@@ -8,8 +8,10 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import NuevoChatModal from "../../components/NuevoChatModal";
 import useSocket from "../../hooks/useSocket";
+import styles from "./page.module.css";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+const FOTO_POR_DEFECTO = "https://api.dicebear.com/7.x/initials/svg?seed=Chat";
 
 export default function ChatsPage() {
   const router = useRouter();
@@ -18,7 +20,8 @@ export default function ChatsPage() {
   const [chatActivo, setChatActivo] = useState(null);
   const [historial, setHistorial] = useState([]);
   const [textoNuevo, setTextoNuevo] = useState("");
-  const [modalAbierto, setModalAbierto] = useState(null);
+  const [modalAbierto, setModalAbierto] = useState(null); // "chat" | "grupo" | null
+
   const { mensajes, setMensajes, enviarMensaje } = useSocket(
     chatActivo?.id,
     usuario?.id
@@ -35,6 +38,8 @@ export default function ChatsPage() {
 
   useEffect(() => {
     if (!usuario) return;
+    cargarChats();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [usuario]);
 
   async function cargarChats() {
@@ -78,53 +83,76 @@ export default function ChatsPage() {
   const todosLosMensajes = [...historial, ...mensajes];
 
   return (
-    <main>
-      <header>
-        <span>{usuario.nombre}</span>
-        <button onClick={handleLogout}>Salir</button>
-      </header>
+    <main className={styles.main}>
+      <aside className={styles.sidebar}>
+        <div className={styles.sidebarHeader}>
+          <span className={styles.nombreUsuario}>{usuario.nombre}</span>
+          <button className={styles.logout} onClick={handleLogout}>
+            Salir
+          </button>
+        </div>
 
-      <div>
-        <Button onClick={() => setModalAbierto("chat")}>+ Nuevo chat</Button>
-        <Button onClick={() => setModalAbierto("grupo")}>+ Nuevo grupo</Button>
-      </div>
+        <div className={styles.accionesNuevo}>
+          <Button variant="secondary" onClick={() => setModalAbierto("chat")}>
+            + Nuevo chat
+          </Button>
+          <Button variant="secondary" onClick={() => setModalAbierto("grupo")}>
+            + Nuevo grupo
+          </Button>
+        </div>
 
-      <ChatList
-        chats={chats}
-        chatActivoId={chatActivo?.id}
-        onSeleccionar={seleccionarChat}
-      />
+        <ChatList
+          chats={chats}
+          chatActivoId={chatActivo?.id}
+          onSeleccionar={seleccionarChat}
+        />
+      </aside>
 
-      {chatActivo && (
-        <section>
-          <h2>{chatActivo.nombre_chat}</h2>
-
-          <div>
-            {todosLosMensajes.map((m) => (
-              <Message
-                key={m.id}
-                contenido={m.contenido}
-                propio={m.usuario_id === usuario.id}
-                autor={m.nombre_usuario}
-                hora={new Date(m.fecha_envio).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              />
-            ))}
+      <section className={styles.panel}>
+        {!chatActivo ? (
+          <div className={styles.sinChat}>
+            Elegí un chat para empezar a conversar.
           </div>
+        ) : (
+          <>
+            <header className={styles.panelHeader}>
+              <img
+                src={chatActivo.foto_url || FOTO_POR_DEFECTO}
+                alt={chatActivo.nombre_chat}
+                className={styles.panelFoto}
+              />
+              <span className={styles.panelNombre}>
+                {chatActivo.nombre_chat}
+              </span>
+            </header>
 
-          <form onSubmit={handleEnviar}>
-            <Input
-              name="mensaje"
-              value={textoNuevo}
-              onChange={(e) => setTextoNuevo(e.target.value)}
-              placeholder="Escribí un mensaje..."
-            />
-            <Button type="submit">Enviar</Button>
-          </form>
-        </section>
-      )}
+            <div className={styles.mensajes}>
+              {todosLosMensajes.map((m) => (
+                <Message
+                  key={m.id}
+                  contenido={m.contenido}
+                  propio={m.usuario_id === usuario.id}
+                  autor={m.nombre_usuario}
+                  hora={new Date(m.fecha_envio).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                />
+              ))}
+            </div>
+
+            <form className={styles.formEnvio} onSubmit={handleEnviar}>
+              <Input
+                name="mensaje"
+                value={textoNuevo}
+                onChange={(e) => setTextoNuevo(e.target.value)}
+                placeholder="Escribí un mensaje..."
+              />
+              <Button type="submit">Enviar</Button>
+            </form>
+          </>
+        )}
+      </section>
 
       {modalAbierto && (
         <NuevoChatModal
