@@ -1,0 +1,59 @@
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease, padding-left 0.15s ease;
+}
+
+.item:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.activo {
+  background: linear-gradient(
+    90deg,
+    rgba(139, 92, 246, 0.16),
+    rgba(236, 72, 153, 0.04) 70%
+  );
+  border-left: 3px solid var(--accent-start);
+  padding-left: calc(1.1rem - 3px);
+}
+
+.foto {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid var(--border);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.nombre {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ultimoMensaje {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

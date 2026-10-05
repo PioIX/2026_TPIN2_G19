@@ -1,5 +1,7 @@
 "use client";
 
+import styles from "./Input.module.css";
+
 export default function Input({
   label,
   type = "text",
@@ -11,8 +13,12 @@ export default function Input({
   required = false,
 }) {
   return (
-    <div>
-      {label && <label htmlFor={name}>{label}</label>}
+    <div className={styles.wrapper}>
+      {label && (
+        <label className={styles.label} htmlFor={name}>
+          {label}
+        </label>
+      )}
       <input
         id={name}
         name={name}
@@ -21,8 +27,9 @@ export default function Input({
         onChange={onChange}
         placeholder={placeholder}
         required={required}
+        className={`${styles.input} ${error ? styles.inputError : ""}`}
       />
-      {error && <span>{error}</span>}
+      {error && <span className={styles.error}>{error}</span>}
     </div>
   );
 }
