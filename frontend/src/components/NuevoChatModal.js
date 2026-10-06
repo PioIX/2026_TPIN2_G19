@@ -5,6 +5,7 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import Input from "./Input";
 import Button from "./Button";
+import styles from "./NuevoChatModal.module.css";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
@@ -58,10 +59,12 @@ export default function NuevoChatModal({ tipo, usuarioId, onCerrar, onCreado }) 
 
   return (
     <Popup open modal nested onClose={onCerrar}>
-      <div>
-        <h2>{esGrupo ? "Crear grupo nuevo" : "Iniciar chat nuevo"}</h2>
+      <div className={styles.modal}>
+        <h2 className={styles.titulo}>
+          {esGrupo ? "Crear grupo nuevo" : "Iniciar chat nuevo"}
+        </h2>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={styles.form}>
           {esGrupo ? (
             <>
               <Input
@@ -97,12 +100,16 @@ export default function NuevoChatModal({ tipo, usuarioId, onCerrar, onCreado }) 
             />
           )}
 
-          {error && <p>{error}</p>}
+          {error && <p className={styles.error}>{error}</p>}
 
-          <Button onClick={onCerrar}>Cancelar</Button>
-          <Button type="submit" disabled={cargando}>
-            {cargando ? "Creando..." : "Crear"}
-          </Button>
+          <div className={styles.acciones}>
+            <Button variant="secondary" onClick={onCerrar}>
+              Cancelar
+            </Button>
+            <Button type="submit" disabled={cargando}>
+              {cargando ? "Creando..." : "Crear"}
+            </Button>
+          </div>
         </form>
       </div>
     </Popup>
