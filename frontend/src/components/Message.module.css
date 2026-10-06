@@ -1,0 +1,55 @@
+.fila {
+  display: flex;
+  margin: 0.3rem 0;
+}
+
+.propia {
+  justify-content: flex-end;
+}
+
+.recibida {
+  justify-content: flex-start;
+}
+
+.burbuja {
+  max-width: 70%;
+  padding: 0.6rem 0.95rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.propia .burbuja {
+  background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+  color: #ffffff;
+  border-bottom-right-radius: 4px;
+}
+
+.recibida .burbuja {
+  background: var(--surface-alt);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 4px;
+}
+
+.autor {
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.85;
+  margin-bottom: 0.15rem;
+  color: var(--accent-soft);
+}
+
+.contenido {
+  margin: 0;
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.hora {
+  font-size: 0.68rem;
+  opacity: 0.65;
+  align-self: flex-end;
+  margin-top: 0.25rem;
+}
